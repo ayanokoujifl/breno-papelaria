@@ -1,92 +1,44 @@
-import connection from "../connection.js"
+import compras from "../models/Compra.js" // Certifique-se de que o modelo já está configurado
 
 export const findAll = () => {
-  return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM compra", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
-  })
+  return compras.findAll() // Retorna todas as entradas da tabela 'compras'
 }
 
 export const findById = (id) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM compra WHERE id_compra = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
-  })
+  return compras.findByPk(id) // Busca uma compra pelo ID
 }
 
 export const create = (compra) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO compra(id_forn,id_func,datadodia,horadodia,formapagamento,valortotal) values (?, ?, ?, ?, ?, ?)",
-      [
-        compra.id_forn,
-        compra.id_func,
-        compra.datadodia,
-        compra.horadodia,
-        compra.formapagamento,
-        compra.valortotal,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+  return compras.create({
+    id_forn: compra.id_forn,
+    id_func: compra.id_func,
+    datadodia: compra.datadodia,
+    horadodia: compra.horadodia,
+    formapagamento: compra.formapagamento,
+    valortotal: compra.valortotal,
   })
 }
 
 export const deleteById = (id) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM compra WHERE id_compra = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+  return compras.destroy({
+    where: {
+      id_compra: id, // Deleta uma compra pelo ID
+    },
   })
 }
 
 export const update = (id, compra) => {
-  return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE compra SET id_forn = ?, id_func = ?, datadodia = ?, horadodia = ?, formapagamento = ?, valortotal = ? WHERE id_compra = ?",
-      [
-        compra.id_forn,
-        compra.id_func,
-        compra.datadodia,
-        compra.horadodia,
-        compra.formapagamento,
-        compra.valortotal,
-        id,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
-  })
+  return compras.update(
+    {
+      id_forn: compra.id_forn,
+      id_func: compra.id_func,
+      datadodia: compra.datadodia,
+      horadodia: compra.horadodia,
+      formapagamento: compra.formapagamento,
+      valortotal: compra.valortotal,
+    },
+    {
+      where: { id_compra: id }, // Atualiza a compra pelo ID
+    }
+  )
 }

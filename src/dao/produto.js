@@ -1,77 +1,69 @@
-import connection from "../connection.js"
+import produtos from "../models/produto.js"
 
+// Buscar todos os produtos
 export const findAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM produto", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
+    produtos
+      .findAll()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Buscar um produto pelo ID
 export const findById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM produto WHERE id_prod = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    produtos
+      .findByPk(id)
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Criar um novo produto
 export const create = (produto) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO produto(id_forn,nome,preco,estoque) values (?, ?, ?, ?)",
-      [produto.id_forn, produto.nome, produto.preco, produto.estoque],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    produtos
+      .create({
+        id_forn: produto.id_forn,
+        nome: produto.nome,
+        preco: produto.preco,
+        estoque: produto.estoque,
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Deletar um produto pelo ID
 export const deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM produto WHERE id_prod = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    const rowsDeleted = produtos.destroy({
+      where: { id_prod: id },
+    })
+
+    if (rowsDeleted === 0) {
+      reject(new Error(`Produto com ID ${id} nao pode ser deletado.`))
+    }
   })
 }
 
+// Atualizar um produto pelo ID
 export const update = (id, produto) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE produto SET id_forn = ?, nome = ?, preco = ?, estoque = ? WHERE id_prod = ?",
-      [produto.id_forn, produto.nome, produto.preco, produto.estoque, id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    produtos
+      .update(
+        {
+          id_forn: produto.id_forn,
+          nome: produto.nome,
+          preco: produto.preco,
+          estoque: produto.estoque,
+        },
+        {
+          where: { id_prod: id },
         }
-      }
-    )
+      )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }

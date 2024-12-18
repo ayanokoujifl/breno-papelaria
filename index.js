@@ -9,6 +9,8 @@ import vendasRoutes from "./src/routes/vendas.js"
 import itensVendaRoutes from "./src/routes/itens_venda.js"
 import path from "path"
 import { fileURLToPath } from "url"
+import connection from "./src/connection.js"
+import loadTables from "./src/models/createTables.js"
 
 // Criar __dirname manualmente
 const __filename = fileURLToPath(import.meta.url)
@@ -26,5 +28,7 @@ app.use("/vendas", vendasRoutes)
 app.use("/itens_venda", itensVendaRoutes)
 
 app.use("/", express.static(__dirname + "/src/views"))
+
+loadTables()
 
 app.listen(3000)

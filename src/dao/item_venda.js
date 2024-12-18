@@ -1,90 +1,70 @@
-import connection from "../connection.js"
+import itensVenda from "../models/itens_venda.js"
 
+// Buscar todos os itens de venda
 export const findAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM itens_venda", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
+    itensVenda
+      .findAll()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Buscar um item de venda pelo ID
 export const findById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM itens_venda WHERE id_itensv = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    itensVenda
+      .findByPk(id)
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
-export const create = (item_venda) => {
+// Criar um novo item de venda
+export const create = (itemVenda) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO itens_venda(id_prod,id_venda,id_func,quantidade,preco) values (?, ?, ?, ?, ?)",
-      [
-        item_venda.id_prod,
-        item_venda.id_venda,
-        item_venda.id_func,
-        item_venda.quantidade,
-        item_venda.preco,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    itensVenda
+      .create({
+        id_prod: itemVenda.id_prod,
+        id_venda: itemVenda.id_venda,
+        id_func: itemVenda.id_func,
+        quantidade: itemVenda.quantidade,
+        preco: itemVenda.preco,
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Deletar um item de venda pelo ID
 export const deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM itens_venda WHERE id_itensv = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    const rowsDeleted = itensVenda.destroy({
+      where: { id_itensv: id },
+    })
+    if (rowsDeleted === 0) {
+      reject(new Error(`Item de venda com ID ${id} nao encontrado.`))
+    }
   })
 }
 
-export const update = (id, item_venda) => {
+// Atualizar um item de venda pelo ID
+export const update = (id, itemVenda) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE itens_venda SET id_prod=?, id_venda=?,id_func=?,quantidade=?,preco=? WHERE id_itensv = ?",
-      [
-        item_venda.id_prod,
-        item_venda.id_venda,
-        item_venda.id_func,
-        item_venda.quantidade,
-        item_venda.preco,
-        id,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    itensVenda
+      .update(
+        {
+          id_prod: itemVenda.id_prod,
+          id_venda: itemVenda.id_venda,
+          id_func: itemVenda.id_func,
+          quantidade: itemVenda.quantidade,
+          preco: itemVenda.preco,
+        },
+        {
+          where: { id_itensv: id },
         }
-      }
-    )
+      )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }

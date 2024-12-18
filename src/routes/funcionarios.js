@@ -10,7 +10,7 @@ router.get("/findAll", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const result = await funcionario.findById(req.params.id)
-  result.length > 0
+  result
     ? res.send(await funcionario.findById(req.params.id))
     : res.status(404).send(notFoundPage)
 })
@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
   res.send(
     await funcionario
       .create(req.body)
-      .then((result) => funcionario.findById(result.insertId))
+      .then((result) => funcionario.findById(result.dataValues.id_func))
   )
 })
 

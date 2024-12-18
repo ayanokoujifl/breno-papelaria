@@ -10,7 +10,7 @@ router.get("/findAll", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const result = await itens_venda.findById(req.params.id)
-  result.length > 0
+  result
     ? res.send(await itens_venda.findById(req.params.id))
     : res.status(404).send(notFoundPage)
 })
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
       .send(
         await itens_venda
           .create(req.body)
-          .then((result) => itens_venda.findById(result.insertId))
+          .then((result) => itens_venda.findById(result.dataValues.id_itensv))
       )
   } catch (err) {
     err.errno === 1452

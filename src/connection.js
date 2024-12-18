@@ -1,17 +1,37 @@
-import * as mysql from "mysql2"
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1718",
-  database: "PapelariaBreno",
+import { configDotenv } from "dotenv"
+import { env } from "process"
+import { Sequelize } from "sequelize"
+configDotenv()
+
+const connection = new Sequelize({
+  host: env.DB_HOST,
+  username: env.DB_USER,
+  password: env.DB_PASSWORD,
+  port: 5432,
+  database: env.DB,
+  dialect: "postgres",
+  ssl: {
+    require: true,
+    rejectUnauthorized: false,
+  },
+  dialectOptions: {
+    connectTimeout: 10000,
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+  logging:false
 })
 
-connection.connect((err) => {
-  if (err) {
-    console.error("error connecting: " + err.stack)
-    return
-  }
-  console.log("connected as id " + connection.threadId)
-})
+
+connection
+  .authenticate()
+  .then(() => {
+    console.log("Conexão com o banco de dados estabelecida com sucesso!")
+  })
+  .catch((err) => {
+    console.error("Erro ao conectar ao banco de dados:", err)
+  })
 
 export default connection

@@ -1,88 +1,74 @@
-import connection from "../connection.js"
+import itensCompra from "../models/itens_compra.js"
 
+// Buscar todos os itens de compra
 export const findAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM itens_compra", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
+    itensCompra
+      .findAll()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Buscar um item de compra pelo ID
 export const findById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM itens_compra WHERE id_itensc = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    itensCompra
+      .findByPk(id)
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
-export const create = (item_compra) => {
+// Criar um novo item de compra
+export const create = (itemCompra) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO itens_compra(id_prod,id_compra,quantidade,total) values (?, ?, ?, ?)",
-      [
-        item_compra.id_prod,
-        item_compra.id_compra,
-        item_compra.quantidade,
-        item_compra.total,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
+    itensCompra
+      .create({
+        id_prod: itemCompra.id_prod,
+        id_compra: itemCompra.id_compra,
+        quantidade: itemCompra.quantidade,
+        total: itemCompra.total,
+      })
+      .then((result) => resolve(result))
+      .catch((err) => {
+        if (err.name === "SequelizeUniqueConstraintError") {
+          reject({ error: "Verifique os dados e tente novamente" })
         } else {
-          resolve(results)
+          reject({ error: "Erro ao criar item de compra: " + err.message })
         }
-      }
-    )
+      })
   })
 }
 
+// Deletar um item de compra pelo ID
 export const deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM itens_compra WHERE id_itensc = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    itensCompra
+      .destroy({
+        where: { id_itensc: id },
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
-export const update = (id, item_compra) => {
+// Atualizar um item de compra pelo ID
+export const update = (id, itemCompra) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE itens_compra SET id_prod = ?, id_compra = ?, quantidade = ?, total = ? WHERE id_itensc = ?",
-      [
-        item_compra.id_prod,
-        item_compra.id_compra,
-        item_compra.quantidade,
-        item_compra.total,
-        id,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    itensCompra
+      .update(
+        {
+          id_prod: itemCompra.id_prod,
+          id_compra: itemCompra.id_compra,
+          quantidade: itemCompra.quantidade,
+          total: itemCompra.total,
+        },
+        {
+          where: { id_itensc: id },
         }
-      }
-    )
+      )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }

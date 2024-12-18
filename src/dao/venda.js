@@ -1,92 +1,75 @@
-import connection from "../connection.js"
+import venda from "../models/venda.js"
 
+// Buscar todas as vendas
 export const findAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM venda", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
+    venda
+      .findAll()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Buscar uma venda pelo ID
 export const findById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM venda WHERE id_venda = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    venda
+      .findByPk(id)
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
-export const create = (venda) => {
+// Criar uma nova venda
+export const create = (vendaData) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO venda(id_cli,id_func,datadodia,horadodia,formapagamento,valortotal) values (?, ?, ?, ?, ?, ?)",
-      [
-        venda.id_cli,
-        venda.id_func,
-        venda.datadodia,
-        venda.horadodia,
-        venda.formapagamento,
-        venda.valortotal,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    venda
+      .create({
+        id_cli: vendaData.id_cli,
+        id_func: vendaData.id_func,
+        datadodia: vendaData.datadodia,
+        horadodia: vendaData.horadodia,
+        formapagamento: vendaData.formapagamento,
+        valortotal: vendaData.valortotal,
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Deletar uma venda pelo ID
 export const deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM venda WHERE id_venda = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    venda
+      .destroy({
+        where: { id_venda: id },
+      })
+      .then((result) => {
+        if (result === 0) {
+          reject(new Error(`Venda com ID ${id} nao encontrada.`))
         }
-      }
-    )
+      })
   })
 }
 
-export const update = (id, venda) => {
+// Atualizar uma venda pelo ID
+export const update = (id, vendaData) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE venda SET id_cli = ?, id_func = ?, datadodia = ?, horadodia = ?, formapagamento = ?, valortotal = ? WHERE id_venda = ?",
-      [
-        venda.id_cli,
-        venda.id_func,
-        venda.datadodia,
-        venda.horadodia,
-        venda.formapagamento,
-        venda.valortotal,
-        id,
-      ],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    venda
+      .update(
+        {
+          id_cli: vendaData.id_cli,
+          id_func: vendaData.id_func,
+          datadodia: vendaData.datadodia,
+          horadodia: vendaData.horadodia,
+          formapagamento: vendaData.formapagamento,
+          valortotal: vendaData.valortotal,
+        },
+        {
+          where: { id_venda: id },
         }
-      }
-    )
+      )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }

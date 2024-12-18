@@ -9,17 +9,17 @@ router.get("/findAll", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-    const result = await fornecedor.findById(req.params.id)
-    result.length > 0
-      ? res.send(await fornecedor.findById(req.params.id))
-      : res.status(404).send(notFoundPage)
+  const result = await fornecedor.findById(req.params.id)
+  result
+    ? res.send(await fornecedor.findById(req.params.id))
+    : res.status(404).send(notFoundPage)
 })
 
 router.post("/", async (req, res) => {
   res.send(
     await fornecedor
       .create(req.body)
-      .then((result) => fornecedor.findById(result.insertId))
+      .then((result) => fornecedor.findById(result.dataValues.id_forn))
   )
 })
 

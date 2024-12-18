@@ -1,77 +1,66 @@
-import connection from "../connection.js"
+import fornecedores from "../models/fornecedor.js"
 
+// Buscar todos os fornecedores
 export const findAll = () => {
   return new Promise((resolve, reject) => {
-    connection.query("SELECT * FROM fornecedor", (err, results) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(results)
-      }
-    })
+    fornecedores
+      .findAll()
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Buscar um fornecedor pelo ID
 export const findById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "SELECT * FROM fornecedor WHERE id_forn = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    fornecedores
+      .findByPk(id)
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Criar um novo fornecedor
 export const create = (fornecedor) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "INSERT INTO fornecedor(nome, telefone, cnpj) values (?, ?, ?)",
-      [fornecedor.nome, fornecedor.telefone, fornecedor.cnpj],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    fornecedores
+      .create({
+        nome: fornecedor.nome,
+        telefone: fornecedor.telefone,
+        cnpj: fornecedor.cnpj,
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Deletar um fornecedor pelo ID
 export const deleteById = (id) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "DELETE FROM fornecedor WHERE id_forn = ?",
-      [id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
-        }
-      }
-    )
+    fornecedores
+      .destroy({
+        where: { id_forn: id },
+      })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
 
+// Atualizar um fornecedor pelo ID
 export const update = (id, fornecedor) => {
   return new Promise((resolve, reject) => {
-    connection.query(
-      "UPDATE fornecedor SET nome = ?, telefone = ?, cnpj = ? WHERE id_forn = ?",
-      [fornecedor.nome, fornecedor.telefone, fornecedor.cnpj, id],
-      (err, results) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(results)
+    fornecedores
+      .update(
+        {
+          nome: fornecedor.nome,
+          telefone: fornecedor.telefone,
+          cnpj: fornecedor.cnpj,
+        },
+        {
+          where: { id_forn: id },
         }
-      }
-    )
+      )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
   })
 }
