@@ -1,11 +1,11 @@
-import compras from "../models/Compra.js" // Certifique-se de que o modelo já está configurado
+import compras from "../models/compra"
 
 export const findAll = () => {
-  return compras.findAll() // Retorna todas as entradas da tabela 'compras'
+  return compras.findAll()
 }
 
 export const findById = (id) => {
-  return compras.findByPk(id) // Busca uma compra pelo ID
+  return compras.findByPk(id)
 }
 
 export const create = (compra) => {
