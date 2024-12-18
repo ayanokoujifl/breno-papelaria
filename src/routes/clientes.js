@@ -1,6 +1,7 @@
 import express from "express"
 import * as cliente from "../dao/cliente.js"
 import { notFoundPage } from "../status_responses/not_found.js"
+import { notFoundClient } from "../status_responses/not_found_client.js"
 
 const router = express.Router()
 
@@ -9,10 +10,17 @@ router.get("/findAll", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-    const result = await cliente.findById(req.params.id)
-    result.length > 0
-      ? res.send(await cliente.findById(req.params.id))
-      : res.status(404).send(notFoundPagee)
+  const result = await cliente.findById(req.params.id)
+  result.length > 0
+    ? res.send(await cliente.findById(req.params.id))
+    : res.status(404).send(notFoundPage)
+})
+
+router.get("/findByCpf/:cpf", async (req, res) => {
+  const result = await cliente.findByCpf(req.params.cpf)
+  result.length > 0
+    ? res.send(await cliente.findByCpf(req.params.cpf))
+    : res.status(404).send(notFoundClient)
 })
 
 router.post("/", async (req, res) => {

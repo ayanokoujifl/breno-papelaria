@@ -28,6 +28,22 @@ export const findById = (id) => {
   })
 }
 
+export const findByCpf = (cpf) => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      "SELECT * FROM cliente WHERE cpf = ? limit 1",
+      [cpf],
+      (err, results) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(results)
+        }
+      }
+    )
+  })
+}
+
 export const create = (cliente) => {
   return new Promise((resolve, reject) => {
     connection.query(
