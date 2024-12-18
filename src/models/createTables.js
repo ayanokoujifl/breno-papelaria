@@ -1,5 +1,5 @@
 import clientes from "./cliente.js"
-import compras from "./Compra.js"
+import compras from "./compra.js"
 import fornecedores from "./fornecedor.js"
 import funcionarios from "./funcionario.js"
 import itensCompra from "./itens_compra.js"
