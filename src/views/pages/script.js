@@ -1,3 +1,7 @@
+import { configDotenv } from "dotenv"
+
+configDotenv()
+
 const eye = document.getElementById("eye")
 const password = document.getElementById("password")
 eye.addEventListener("click", () => {
