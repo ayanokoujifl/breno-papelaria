@@ -34,7 +34,7 @@ button.addEventListener("click", async (e) => {
 
         if (response.status === 200) {
           if (password.value === cpfValue.slice(0, 6)) {
-            window.location.href = "/cliente?cpf=" + cpf.value
+            window.location.href = "/cliente?cpf=" + cpfValue
           }
         }
       }
