@@ -14,12 +14,12 @@ const cliente = await fetch(
 )
   .then((res) => res.json())
   .then((data) => data[0])
-console.log(cliente.Nome)
+console.log(cliente.nome)
 
 const title = document.querySelector(".title-client")
-title.innerHTML = `Olá, ${cliente.Nome}!`
+title.innerHTML = `Olá, ${cliente.nome}!`
 
-window.document.title = `Perfil - ${cliente.Nome}`
+window.document.title = `Perfil - ${cliente.nome}`
 
 const produtos = await fetch(process.env.API_URL + "/produtos/findAll").then(
   (res) => res.json()
@@ -30,7 +30,7 @@ produtos.forEach((produto) => {
   main.innerHTML += `
   <div class="card">
     <div>
-    <h4>${produto.Nome}</h4>
+    <h4>${produto.nome}</h4>
     <p>${Number(produto.Preco).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
