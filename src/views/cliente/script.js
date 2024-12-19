@@ -1,5 +1,3 @@
-import urlApi from "../constantes/urlApi.js"
-
 const header = document.getElementById("header")
 header.innerHTML = await fetch("../components/header-cliente.html").then(
   (res) => res.text()
@@ -11,7 +9,7 @@ footer.innerHTML = await fetch("../components/footer-cliente.html").then(
 )
 
 const cpf = window.location.search.split("=")[1]
-const cliente = await fetch(`${urlApi}/clientes/findByCpf/${cpf}`)
+const cliente = await fetch(`${process.env.API_URL}/clientes/findByCpf/${cpf}`)
   .then((res) => res.json())
   .then((data) => data[0])
 console.log(cliente.Nome)
@@ -19,8 +17,8 @@ console.log(cliente.Nome)
 const title = document.querySelector(".title-client")
 title.innerHTML = `Olá, ${cliente.Nome}!`
 
-const produtos = await fetch(urlApi + "/produtos/findAll").then((res) =>
-  res.json()
+const produtos = await fetch(process.env.API_URL + "/produtos/findAll").then(
+  (res) => res.json()
 )
 
 const main = document.querySelector("main")

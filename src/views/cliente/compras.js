@@ -1,5 +1,3 @@
-import urlApi from "../constantes/urlApi.js"
-
 const header = document.getElementById("header")
 header.innerHTML = await fetch("../components/header-cliente.html").then(
   (res) => res.text()

@@ -28,7 +28,7 @@ button.addEventListener("click", async (e) => {
         window.location.href = "/admin"
       } else {
         const response = await fetch(
-          "http://localhost:3000/clientes/findbycpf/" + email.value
+          process.env.API_URL + "/clientes/findbycpf/" + email.value
         )
         if (response.status === 200) {
           if (password.value === email.value.slice(0, 6)) {
