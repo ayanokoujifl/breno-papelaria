@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: "*" }))
 app.use("/clientes", clienteRoutes)
 app.use("/funcionarios", funcionarioRoutes)
 app.use("/fornecedores", fornecedoresRoutes)
