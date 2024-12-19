@@ -1,6 +1,6 @@
-import { configDotenv } from "dotenv"
+import dotenv from "dotenv"
 
-configDotenv()
+dotenv.config()
 
 const header = document.getElementById("header")
 header.innerHTML = await fetch("../components/header-cliente.html").then(
@@ -13,7 +13,9 @@ footer.innerHTML = await fetch("../components/footer-cliente.html").then(
 )
 
 const cpf = window.location.search.split("=")[1]
-const cliente = await fetch(`${process.env.API_URL}/clientes/findByCpf/${cpf}`)
+const cliente = await fetch(
+  `https://breno-papelaria.onrender.com/clientes/findByCpf/${cpf}`
+)
   .then((res) => res.json())
   .then((data) => data[0])
 console.log(cliente.Nome)

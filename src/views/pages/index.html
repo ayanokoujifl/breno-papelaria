@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="./script.js" defer></script>
+    <script src="./script.js" type="module" defer></script>
     <link rel="stylesheet" href="./style.css" />
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdn.tailwindcss.com" defer></script>
@@ -23,13 +23,14 @@
         class="bg-zinc-300 p-4 border-zinc-700 border-4 rounded w-80 flex flex-col gap-3"
       >
         <div class="flex flex-col">
-          <label for="email" class="font-light">CPF</label>
+          <label for="cpf" class="font-light">CPF</label>
           <input
             class="bg-transparent border-b-2 border-zinc-700 focus:outline-none text-zinc-700"
             placeholder="11111111111"
             type="cpf"
-            name="email"
-            id="email"
+            name="cpf"
+            required
+            id="cpf"
           />
         </div>
         <div class="flex flex-col">
