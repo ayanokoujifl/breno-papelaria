@@ -1,5 +1,5 @@
 import { configDotenv } from "dotenv"
-
+import { env } from "process"
 configDotenv()
 
 const eye = document.getElementById("eye")
@@ -32,7 +32,7 @@ button.addEventListener("click", async (e) => {
         window.location.href = "/admin"
       } else {
         const response = await fetch(
-          process.env.API_URL + "/clientes/findbycpf/" + email.value
+          env.API_URL + "/clientes/findbycpf/" + email.value
         )
         if (response.status === 200) {
           if (password.value === email.value.slice(0, 6)) {
