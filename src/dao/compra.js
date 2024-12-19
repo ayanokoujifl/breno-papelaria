@@ -1,4 +1,4 @@
-import compras from "../models/compra"
+import compras from "../models/compra.js"
 
 export const findAll = () => {
   return compras.findAll()

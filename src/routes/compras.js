@@ -9,10 +9,10 @@ router.get("/findAll", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-   const result = await compras.findById(req.params.id)
-   result
-     ? res.send(await compras.findById(req.params.id))
-     : res.status(404).send(notFoundPage)
+  const result = await compras.findById(req.params.id)
+  result
+    ? res.send(await compras.findById(req.params.id))
+    : res.status(404).send(notFoundPage)
 })
 
 router.post("/", async (req, res) => {
