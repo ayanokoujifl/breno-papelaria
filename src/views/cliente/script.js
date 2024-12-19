@@ -21,6 +21,8 @@ console.log(cliente.Nome)
 const title = document.querySelector(".title-client")
 title.innerHTML = `Olá, ${cliente.Nome}!`
 
+window.document.title = `Perfil - ${cliente.Nome}`
+
 const produtos = await fetch(process.env.API_URL + "/produtos/findAll").then(
   (res) => res.json()
 )
