@@ -31,7 +31,7 @@ button.addEventListener("click", async (e) => {
         console.log("TESTANDO A PARADA")
         const response = await fetch(
           "https://breno-papelaria.onrender.com/clientes/findbycpf/" + cpfValue
-        ).then((res) => console.log(res.json()))
+        )
 
         if (response.status === 200) {
           if (password.value === cpfValue.slice(0, 6)) {
