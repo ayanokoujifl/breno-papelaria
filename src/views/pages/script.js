@@ -28,14 +28,12 @@ button.addEventListener("click", async (e) => {
       if (cpfValue === "admin" && password.value === "admin") {
         window.location.href = "/admin"
       } else {
-        console.log("TESTANDO A PARADA")
         const response = await fetch(
           "https://breno-papelaria.onrender.com/clientes/findbycpf/" + cpfValue
         )
 
         if (response.status === 200) {
           if (password.value === cpfValue.slice(0, 6)) {
-            console.log("file d+")
             window.location.href = "/cliente?cpf=" + cpf.value
           }
         }
