@@ -1,7 +1,3 @@
-import dotenv from "dotenv"
-
-dotenv.config()
-
 const header = document.getElementById("header")
 header.innerHTML = await fetch("../components/header-cliente.html").then(
   (res) => res.text()
