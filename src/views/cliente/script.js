@@ -16,7 +16,7 @@ const cliente = await fetch(
 const title = document.querySelector(".title-client")
 title.innerHTML = `Olá, ${cliente[0].nome}!`
 
-window.document.title = `Perfil - ${cliente.nome}`
+window.document.title = `Perfil - ${cliente[0].nome}`
 
 const produtos = await fetch(
   "https://breno-papelaria.onrender.com/produtos/findAll"
