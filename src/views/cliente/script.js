@@ -11,9 +11,7 @@ footer.innerHTML = await fetch("../components/footer-cliente.html").then(
 const cpf = window.location.search.split("=")[1]
 const cliente = await fetch(
   `https://breno-papelaria.onrender.com/clientes/findByCpf/${cpf}`
-)
-  .then((res) => res.json())
-  .then((data) => data[0])
+).then((res) => res.json())
 console.log(cliente.nome)
 
 const title = document.querySelector(".title-client")
