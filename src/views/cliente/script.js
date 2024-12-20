@@ -12,7 +12,6 @@ const cpf = window.location.search.split("=")[1]
 const cliente = await fetch(
   `https://breno-papelaria.onrender.com/clientes/findByCpf/${cpf}`
 ).then((res) => res.json())
-console.log(cliente[0])
 
 const title = document.querySelector(".title-client")
 if (cliente[0].nome !== null) {

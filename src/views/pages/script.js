@@ -32,7 +32,7 @@ button.addEventListener("click", async (e) => {
           "https://breno-papelaria.onrender.com/clientes/findbycpf/" + cpfValue
         ).then((res) => res.json())
 
-        if (response.length > 0) {
+        if (response[0] !== undefined) {
           if (password.value === cpfValue.slice(0, 6)) {
             window.location.href = "/cliente?cpf=" + cpfValue
           }
