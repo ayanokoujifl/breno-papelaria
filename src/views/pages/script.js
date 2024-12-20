@@ -30,12 +30,14 @@ button.addEventListener("click", async (e) => {
       } else {
         const response = await fetch(
           "https://breno-papelaria.onrender.com/clientes/findbycpf/" + cpfValue
-        )
+        ).then((res) => res.json())
 
-        if (response.status === 200) {
+        if (response.length > 0) {
           if (password.value === cpfValue.slice(0, 6)) {
             window.location.href = "/cliente?cpf=" + cpfValue
           }
+        } else {
+          alert("Usuário não encontrado")
         }
       }
     }
