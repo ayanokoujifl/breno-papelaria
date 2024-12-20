@@ -12,12 +12,13 @@ const cpf = window.location.search.split("=")[1]
 const cliente = await fetch(
   `https://breno-papelaria.onrender.com/clientes/findByCpf/${cpf}`
 ).then((res) => res.json())
+console.log(cliente[0])
 
 const title = document.querySelector(".title-client")
-title.innerHTML = `Olá, ${cliente[0].nome}!`
-
-window.document.title = `Perfil - ${cliente[0].nome}`
-
+if (cliente[0].nome !== null) {
+  title.innerHTML = `Olá, ${cliente[0].nome}!`
+  window.document.title = `Perfil - ${cliente[0].nome}`
+}
 const produtos = await fetch(
   "https://breno-papelaria.onrender.com/produtos/findAll"
 ).then((res) => res.json())
