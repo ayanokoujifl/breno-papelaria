@@ -26,17 +26,17 @@ const vendas = connection.define("Venda", {
       key: "id_func",
     },
   },
-  datadodia: {
-    type: DataTypes.STRING(10),
-  },
-  horadodia: {
-    type: DataTypes.STRING(5),
-  },
+
   formapagamento: {
     type: DataTypes.STRING(25),
   },
   valortotal: {
     type: DataTypes.DECIMAL(10, 2),
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 })
 

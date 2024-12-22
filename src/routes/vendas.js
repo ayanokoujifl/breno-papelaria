@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
           .then((result) => vendas.findById(result.dataValues.id_venda))
       )
   } catch (err) {
-    err.errno === 1452
+    err.name === "SequelizeForeignKeyConstraintError"
       ? res
           .status(400)
           .send(
@@ -57,6 +57,12 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).send({ error: "Erro ao deletar venda. " + error })
   }
+})
+
+router.get("/findByDate", async (req, res) => {
+  console.log(req.query)
+  const response = await vendas.findByDate(req.query.date, req.query.date2)
+  console.log(response)
 })
 
 export default router

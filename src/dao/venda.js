@@ -1,3 +1,4 @@
+import connection from "../connection.js"
 import venda from "../models/venda.js"
 
 // Buscar todas as vendas
@@ -60,8 +61,6 @@ export const update = (id, vendaData) => {
         {
           id_cli: vendaData.id_cli,
           id_func: vendaData.id_func,
-          datadodia: vendaData.datadodia,
-          horadodia: vendaData.horadodia,
           formapagamento: vendaData.formapagamento,
           valortotal: vendaData.valortotal,
         },
@@ -69,6 +68,21 @@ export const update = (id, vendaData) => {
           where: { id_venda: id },
         }
       )
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
+  })
+}
+
+export const findByDate = (minDate, maxDate) => {
+  return new Promise((resolve, reject) => {
+    vendas
+      .findAll({
+        where: {
+          createdAt: {
+            [Op.between]: [new Date(minDate), new Date(maxDate)], // Filtra entre as duas datas
+          },
+        },
+      })
       .then((result) => resolve(result))
       .catch((err) => reject(err))
   })

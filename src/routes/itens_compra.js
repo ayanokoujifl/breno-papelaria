@@ -25,11 +25,11 @@ router.post("/", async (req, res) => {
           .then((result) => compras.findById(result.dataValues.id_itensc))
       )
   } catch (err) {
-    err.errno === 1452
-      ? res
-          .status(400)
-          .send("Falha no registro! Corrija as informações de itens da compra.")
-      : res.status(500).send({ error: err })
+   err.name === "SequelizeForeignKeyConstraintError"
+     ? res
+         .status(400)
+         .send("Falha no registro! Corrija as informações de itens da compra.")
+     : res.status(500).send({ error: err })
   }
 })
 

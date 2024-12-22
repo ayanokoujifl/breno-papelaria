@@ -1,0 +1,113 @@
+@import url('https://fonts.cdnfonts.com/css/roboto');
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+*::selection {
+  background-color: #334155;
+  color: #e5e7eb;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Roboto Medium", sans-serif;
+}
+
+p {
+  text-align: center;
+  font-family: "Roboto Light", sans-serif;
+  font-size: 12px;
+}
+
+main {
+  height: 100vh;
+}
+
+main .chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  margin-top: 32px;
+}
+
+.chart-wrapper h2 {
+  text-align: center;
+  font-family: "Roboto Medium", sans-serif;
+  margin-bottom: 12px;
+}
+
+.chart-wrapper div {
+  display: flex;
+  justify-content: center;
+  gap: 32px ;
+  width: 100%;
+}
+
+#header {
+  display: flex;
+  padding: 12px;
+}
+
+#header img {
+  width: 10rem;
+  margin-left: 12px;
+}
+
+#header nav {
+  flex: 1 0 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-right: 12px;
+}
+
+#header ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+#header ul li {
+  font-family: "Roboto Light";
+}
+
+#header ul li:hover {
+  cursor: pointer;
+  border-bottom: 2px solid #334155;
+  font-weight: 400;
+}
+
+#footer {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #94a3b8;
+  padding: 12px 24px;
+  align-items: center;
+}
+
+#footer img {
+  width: 4rem;
+}
+
+#footer p {
+  text-align: center;
+  width: 100%;
+  color: #334155;
+}
