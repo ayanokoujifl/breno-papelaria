@@ -34,4 +34,5 @@ app.use("/itens_venda", itensVendaRoutes)
 app.use("/", express.static(__dirname + "/src/views"))
 
 loadTables()
+populateDatabase()
 app.listen(3000)
