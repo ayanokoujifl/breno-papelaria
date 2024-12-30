@@ -19,11 +19,11 @@ button.addEventListener("click", async (e) => {
   const password = document.getElementById("password")
   if (cpf.value === "") {
     cpf.setAttribute("placeholder", "Insira seu user ou CPF")
-    cpf.classList.add("placeholder:text-red-500")
+    cpf.classList.add("placeholder-text-red-500")
   } else {
     if (password.value === "") {
       password.setAttribute("placeholder", "Insira sua senha")
-      password.classList.add("placeholder:text-red-500")
+      password.classList.add("placeholder-text-red-500")
     } else {
       if (cpfValue === "admin" && password.value === "admin") {
         window.location.href = "/admin"

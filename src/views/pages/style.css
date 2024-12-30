@@ -1,3 +1,8 @@
+*::selection {
+  background-color: #334155;
+  color: #e5e7eb;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -45,6 +50,7 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .label {
@@ -53,8 +59,9 @@ body {
 
 .input {
   background-color: transparent;
-  border-bottom: 2px solid #52525b;
   outline: none;
+  border: none;
+  border-bottom: 2px solid #52525b;
   color: #52525b;
   width: 100%;
 }
@@ -62,6 +69,7 @@ body {
 .input-container {
   display: flex;
   position: relative;
+  align-items: center;
 }
 
 .eye-icon {
@@ -76,4 +84,8 @@ body {
   border-radius: 0.5rem;
   margin-top: 0.75rem;
   padding: 0.25rem 0.75rem;
+}
+
+.placeholder-text-red-500::placeholder {
+  color: #dc2626;
 }

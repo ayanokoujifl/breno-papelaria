@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
           .send(
             "Falha na criação de produto! Corrija as informações de fornecedor."
           )
-      : res.status(500).send({ error: err })
+      : res.status(500).send({ error: "Erro ao criar produto." })
   }
 })
 

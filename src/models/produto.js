@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize"
 import connection from "../connection.js"
 import fornecedores from "./fornecedor.js"
 
-const produtos = connection.define("Produto", {
+const produtos = connection.define("produtos", {
   id_prod: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -26,6 +26,12 @@ const produtos = connection.define("Produto", {
   },
   estoque: {
     type: DataTypes.INTEGER,
+  },
+  imagem: {
+    type: DataTypes.STRING,
+    validate: {
+      isUrl: true,
+    },
   },
 })
 

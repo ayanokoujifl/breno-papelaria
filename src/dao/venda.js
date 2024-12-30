@@ -1,5 +1,6 @@
+import { Op } from "sequelize"
+import { default as venda } from "../models/venda.js"
 import connection from "../connection.js"
-import venda from "../models/venda.js"
 
 // Buscar todas as vendas
 export const findAll = () => {
@@ -75,15 +76,21 @@ export const update = (id, vendaData) => {
 
 export const findByDate = (minDate, maxDate) => {
   return new Promise((resolve, reject) => {
-    vendas
-      .findAll({
-        where: {
-          createdAt: {
-            [Op.between]: [new Date(minDate), new Date(maxDate)], // Filtra entre as duas datas
-          },
-        },
+    connection
+      .query(
+        `SELECT * FROM "Vendas" WHERE "createdAt"::DATE BETWEEN :minDate AND :maxDate`,
+        {
+          replacements: { minDate, maxDate },
+          type: connection.QueryTypes.SELECT,
+        }
+      )
+      .then((result) => {
+        console.log("Resultado da query:", result)
+        resolve(result)
       })
-      .then((result) => resolve(result))
-      .catch((err) => reject(err))
+      .catch((err) => {
+        console.error("Erro na execução da query:", err)
+        reject(err)
+      })
   })
 }

@@ -29,6 +29,7 @@ export const create = (produto) => {
         nome: produto.nome,
         preco: produto.preco,
         estoque: produto.estoque,
+        imagem: produto.imagem,
       })
       .then((result) => resolve(result))
       .catch((err) => reject(err))
@@ -58,6 +59,7 @@ export const update = (id, produto) => {
           nome: produto.nome,
           preco: produto.preco,
           estoque: produto.estoque,
+          imagem: produto.imagem,
         },
         {
           where: { id_prod: id },

@@ -4,6 +4,14 @@ import { notFoundPage } from "../status_responses/not_found.js"
 
 const router = express.Router()
 
+router.get("/findByDate", async (req, res) => {
+  const { minDate, maxDate } = req.query
+  console.log(minDate, maxDate)
+  minDate && maxDate
+    ? res.send(await vendas.findByDate(minDate, maxDate))
+    : res.status(404).send([])
+})
+
 router.get("/findAll", async (req, res) => {
   res.send(await vendas.findAll())
 })
@@ -57,12 +65,6 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).send({ error: "Erro ao deletar venda. " + error })
   }
-})
-
-router.get("/findByDate", async (req, res) => {
-  console.log(req.query)
-  const response = await vendas.findByDate(req.query.date, req.query.date2)
-  console.log(response)
 })
 
 export default router

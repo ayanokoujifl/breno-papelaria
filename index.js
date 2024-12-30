@@ -11,6 +11,10 @@ import itensVendaRoutes from "./src/routes/itens_venda.js"
 import produtosRoutes from "./src/routes/produtos.js"
 import vendasRoutes from "./src/routes/vendas.js"
 import cors from "cors"
+import clientes from "./src/models/cliente.js"
+import fornecedores from "./src/models/fornecedor.js"
+import produtos from "./src/models/produto.js"
+import { populateDatabase } from "./src/dao/populateDatabase.js"
 // Criar __dirname manualmente
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -30,5 +34,4 @@ app.use("/itens_venda", itensVendaRoutes)
 app.use("/", express.static(__dirname + "/src/views"))
 
 loadTables()
-
 app.listen(3000)

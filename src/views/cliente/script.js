@@ -18,22 +18,30 @@ if (cliente[0].nome !== null) {
   title.innerHTML = `Olá, ${cliente[0].nome}!`
   window.document.title = `Perfil - ${cliente[0].nome}`
 }
-const produtos = await fetch(
-  "https://breno-papelaria.onrender.com/produtos/findAll"
-).then((res) => res.json())
 
+async function getProdutos() {
+  return await fetch(
+    "https://breno-papelaria.onrender.com/produtos/findAll"
+  ).then((res) => res.json())
+}
+
+const produtos = await getProdutos()
 const main = document.querySelector("main")
+
+main.innerHTML = "<div class='spinner'/>"
+console.log(produtos)
 produtos.forEach((produto) => {
-  main.innerHTML += `
+  console.log(produtos)
+  main.innerHTML = `
   <div class="card">
     <div>
     <h4>${produto.nome}</h4>
-    <p>${Number(produto.Preco).toLocaleString("pt-BR", {
+    <p>${Number(produto.preco).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     })}</p>
     </div>
-    <img src="${produto.Imagem}" alt="imagem ilustrativa" />
+    <img src="${produto.imagem}" alt="imagem ilustrativa" />
   </div>
   `
 })

@@ -24,11 +24,15 @@ router.get("/findByCpf/:cpf", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-  res.send(
-    await cliente
-      .create(req.body)
-      .then((result) => cliente.findById(result.dataValues.id_cli))
-  )
+  try {
+    res.send(
+      await cliente
+        .create(req.body)
+        .then((result) => cliente.findById(result.dataValues.id_cli))
+    )
+  } catch (err) {
+    res.status(500).send({ error: "Erro ao cadastrar cliente. " + err })
+  }
 })
 
 router.put("/:id", async (req, res) => {

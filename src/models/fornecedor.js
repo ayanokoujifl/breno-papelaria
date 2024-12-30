@@ -22,4 +22,5 @@ const fornecedores = connection.define("fornecedores", {
   },
 })
 
+
 export default fornecedores
