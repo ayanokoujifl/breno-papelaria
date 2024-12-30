@@ -5,10 +5,7 @@ import produtos from "../models/produto.js"
 
 export async function populateDatabase() {
   try {
-    // Sincronizar modelos (apenas se necessário)
-    await connection.sync()
-
-    // Inserir dados em 'clientes'
+    connection.sync()
     const clientesData = [
       {
         nome: "Luís Gustavo",
@@ -40,7 +37,6 @@ export async function populateDatabase() {
     ]
     await clientes.bulkCreate(clientesData)
 
-    // Inserir dados em 'fornecedores'
     const fornecedoresData = [
       {
         nome: "Fornecedor A",
