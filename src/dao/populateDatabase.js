@@ -76,3 +76,5 @@ export async function populateDatabase() {
     console.error("Erro ao popular o banco de dados:", error)
   }
 }
+
+populateDatabase()

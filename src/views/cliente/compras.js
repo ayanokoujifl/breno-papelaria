@@ -14,3 +14,12 @@ const navProdutos = document.querySelector(".produtos")
 navProdutos.addEventListener("click", () => {
   window.location.href = "/cliente?cpf=" + cpf
 })
+
+const main = document.querySelector("main")
+main.innerHTML = "<div class='spinner'/>"
+
+const id_cli = window.parent.location.search.split("=")[0]
+console.log(id_cli)
+const compras = await fetch(
+  `https://breno-papelaria.onrender.com/vendas/findByCliente${id_cli}`
+)

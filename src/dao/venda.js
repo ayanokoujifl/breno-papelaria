@@ -2,6 +2,15 @@ import { Op } from "sequelize"
 import { default as venda } from "../models/venda.js"
 import connection from "../connection.js"
 
+export const findByCliente = (id) => {
+  return new Promise((resolve, reject) => {
+    venda
+      .findAll({ where: { id_cli: id } })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
+  })
+}
+
 // Buscar todas as vendas
 export const findAll = () => {
   return new Promise((resolve, reject) => {

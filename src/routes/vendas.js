@@ -4,6 +4,14 @@ import { notFoundPage } from "../status_responses/not_found.js"
 
 const router = express.Router()
 
+router.get("/findByCliente/:id", async (req, res) => {
+  try {
+    res.send(await vendas.findByCliente(req.params.id))
+  } catch (err) {
+    res.status(404).send({ error: "Nenhuma venda encontrada." })
+  }
+})
+
 router.get("/findByDate", async (req, res) => {
   const { minDate, maxDate } = req.query
   console.log(minDate, maxDate)

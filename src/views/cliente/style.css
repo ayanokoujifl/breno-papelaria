@@ -64,7 +64,7 @@ h4 {
 main {
   display: flex;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 24px;
   flex: 1 0 0;
   justify-content: center;
   align-items: center;
@@ -117,6 +117,13 @@ main {
 .card:hover {
   cursor: pointer;
   background-color: #1e293b;
+}
+
+.card .img-card {
+  width: 125px;
+  height: 125px;
+  border-radius: 4px;
+  aspect-ratio: 1/1;
 }
 
 #footer {

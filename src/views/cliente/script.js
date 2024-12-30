@@ -27,12 +27,11 @@ async function getProdutos() {
 
 const produtos = await getProdutos()
 const main = document.querySelector("main")
-
 main.innerHTML = "<div class='spinner'/>"
-console.log(produtos)
+
+produtos ? (main.innerHTML = "") : null
 produtos.forEach((produto) => {
-  console.log(produtos)
-  main.innerHTML = `
+  main.innerHTML += `
   <div class="card">
     <div>
     <h4>${produto.nome}</h4>
@@ -41,12 +40,12 @@ produtos.forEach((produto) => {
       currency: "BRL",
     })}</p>
     </div>
-    <img src="${produto.imagem}" alt="imagem ilustrativa" />
+    <img src="${produto.imagem}" alt="imagem ilustrativa" class="img-card" />
   </div>
   `
 })
 
 const compras = document.querySelector(".compras")
 compras.addEventListener("click", () => {
-  window.location.href = `./compras.html?cpf=${cpf}`
+  window.location.href = `./compras.html?id=${cliente.id_cli}`
 })

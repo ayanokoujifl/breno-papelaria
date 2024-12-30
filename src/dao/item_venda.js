@@ -1,5 +1,14 @@
 import itensVenda from "../models/itens_venda.js"
 
+export const findByVenda = (id_venda) => {
+  return new Promise((resolve, reject) => {
+    itensVenda
+      .findAll({ where: { id_venda } })
+      .then((result) => resolve(result))
+      .catch((err) => reject(err))
+  })
+}
+
 // Buscar todos os itens de venda
 export const findAll = () => {
   return new Promise((resolve, reject) => {
