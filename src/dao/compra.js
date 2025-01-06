@@ -21,7 +21,6 @@ export const findByDate = (minDate, maxDate) => {
   })
 }
 
-
 export const findAll = () => {
   return compras.findAll()
 }
@@ -60,4 +59,3 @@ export const update = (id, compra) => {
     }
   )
 }
-

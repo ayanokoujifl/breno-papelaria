@@ -48,7 +48,7 @@ const maxDate = document.getElementById("end")
 minDate.value = lastWeek.toISOString().split("T")[0]
 maxDate.value = today.toISOString().split("T")[0]
 
-const getData = async (minDate, maxDate) => {
+/* const getData = async (minDate, maxDate) => {
   const dataVendas = await fetch(
     "https://breno-papelaria.onrender.com/vendas/findByDate?minDate=" +
       minDate.value +
@@ -64,11 +64,98 @@ const getData = async (minDate, maxDate) => {
   ).then((res) => res.json())
 
   return [dataVendas, dataCompras]
+} */
+
+async function getData() {
+  const dataVendas = await fetch(
+    "https://breno-papelaria.onrender.com/vendas/findAll"
+  ).then((res) => res.json())
+  const dataCompras = await fetch(
+    "https://breno-papelaria.onrender.com/compras/findAll"
+  ).then((res) => res.json())
+  const filteredVendas = dataVendas.filter((venda) => {
+    const vendaDate = new Date(venda.createdAt)
+    return vendaDate >= lastWeek && vendaDate <= today
+  })
+
+  const filteredCompras = dataCompras.filter((compra) => {
+    const compraDate = new Date(compra.createdAt)
+    return compraDate >= lastWeek && compraDate <= today
+  })
+
+  return [filteredVendas, filteredCompras]
 }
 
-const [dataVendas, dataCompras] = await getData(minDate, maxDate)
-console.log(dataVendas)
-console.log("\n##\n" + dataCompras)
+const [filteredVendas, filteredCompras] = await getData()
+
+const tableSection = document.querySelector(".table-section")
+const table = document.createElement("table")
+table.setAttribute("border", "1")
+const fields = [
+  "Mês",
+  "Arrecadação",
+  "Gastos",
+  "FP",
+  "CMAT",
+  "CMAN",
+  "Lucro Bruto",
+  "Lucro Liquido",
+]
+const tbody = document.createElement("tbody") // Certifique-se de ter um <tbody> no HTML
+const thead = document.createElement("thead") // Certifique-se de ter um <thead> no HTML
+
+// Adicionar os cabeçalhos na tabela
+fields.forEach((field) => {
+  const th = document.createElement("th")
+  th.textContent = field
+  thead.appendChild(th)
+})
+
+// Agrupar dados por mês
+const groupedByMonth = {}
+
+// Função auxiliar para formatar o mês (yyyy-mm)
+const formatMonth = (date) => {
+  const month = date.getMonth() + 1 // Mês é zero-indexado
+  const year = date.getFullYear()
+  return `${month.toString().padStart(2, "0")}/${year}`
+}
+
+// Agrupar vendas (Total Arrecadado)
+filteredVendas.forEach((venda) => {
+  const monthKey = formatMonth(new Date(venda.createdAt))
+  if (!groupedByMonth[monthKey]) {
+    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
+  }
+  groupedByMonth[monthKey].arrecadado += Number(venda.valortotal)
+})
+
+// Agrupar compras (Total Gasto)
+filteredCompras.forEach((compra) => {
+  const monthKey = formatMonth(new Date(compra.createdAt))
+  if (!groupedByMonth[monthKey]) {
+    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
+  }
+  groupedByMonth[monthKey].gasto += Number(compra.valortotal)
+})
+
+// Adicionar os dados na tabela
+for (const [month, { arrecadado, gasto }] of Object.entries(groupedByMonth)) {
+  const tr = document.createElement("tr")
+  fields.forEach((field) => {
+    const td = document.createElement("td")
+    if (field === "Mês") td.textContent = month
+    if (field === "Total Arrecadado") td.textContent = arrecadado.toFixed(2)
+    if (field === "Total Gasto") td.textContent = gasto.toFixed(2)
+    tr.appendChild(td)
+  })
+  tbody.appendChild(tr)
+}
+
+table.appendChild(thead)
+table.appendChild(tbody)
+tableSection.appendChild(table)
+
 const filter = document.getElementById("filter")
 filter.addEventListener("click", async (e) => {
   e.preventDefault()

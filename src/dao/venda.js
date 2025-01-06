@@ -32,6 +32,7 @@ export const findById = (id) => {
 
 // Criar uma nova venda
 export const create = (vendaData) => {
+  console.log(vendaData)
   return new Promise((resolve, reject) => {
     venda
       .create({
@@ -39,6 +40,7 @@ export const create = (vendaData) => {
         id_func: vendaData.id_func,
         formapagamento: vendaData.formapagamento,
         valortotal: vendaData.valortotal,
+        mes: vendaData.mes,
       })
       .then((result) => resolve(result))
       .catch((err) => reject(err))

@@ -35,10 +35,8 @@ const vendas = connection.define(
     valortotal: {
       type: DataTypes.DECIMAL(10, 2),
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
+    mes: {
+      type: DataTypes.STRING(10),
     },
   },
   { timestamps: false }

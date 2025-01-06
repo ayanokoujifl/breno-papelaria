@@ -12,6 +12,21 @@ document.addEventListener("submit", (event) => {
   event.preventDefault()
 })
 
+const MESES = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+]
+
 //#############################################
 async function getCompras() {
   try {
@@ -57,7 +72,14 @@ const itemCompras = await getItemCompras()
 const section = document.querySelector("main > section")
 const table = document.createElement("table")
 const thead = document.createElement("thead")
-const fields = ["id_venda", "id_cli", "id_func", "formapagamento", "valortotal"]
+const fields = [
+  "id_venda",
+  "id_cli",
+  "id_func",
+  "formapagamento",
+  "valortotal",
+  "mes",
+]
 
 //##############################################
 
@@ -217,6 +239,26 @@ cadastrar.addEventListener("click", async () => {
         option.innerHTML = funcionario.nome
         select.appendChild(option)
       })
+    } else if (field === "mes") {
+      const label = document.createElement("label")
+      label.innerHTML = "Mês"
+      const select = document.createElement("select")
+      const option = document.createElement("option")
+      select.setAttribute("id", "mes")
+      option.setAttribute("value", "")
+      option.setAttribute("selected", "true")
+      option.innerHTML = "Selecione um mês"
+      select.appendChild(option)
+      MESES.map((mes) => {
+        const option = document.createElement("option")
+        option.setAttribute("value", mes)
+        option.innerHTML = mes
+        select.appendChild(option)
+      })
+      const div = document.createElement("div")
+      div.appendChild(label)
+      div.appendChild(select)
+      form.appendChild(div)
     } else {
       const label = document.createElement("label")
       label.innerHTML = field
@@ -322,12 +364,13 @@ cadastrar.addEventListener("click", async () => {
     })
 
     const formapagamento = document.querySelector("#formapagamento").value
-
+    const mes = document.querySelector("#mes").value
     const vendaData = {
       id_cli: idCliente,
       id_func: idFunc,
       formapagamento,
       valortotal: total,
+      mes: mes,
     }
 
     console.log(vendaData)
