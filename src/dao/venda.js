@@ -1,6 +1,5 @@
-import { Op } from "sequelize"
-import { default as venda } from "../models/venda.js"
 import connection from "../connection.js"
+import { default as venda } from "../models/venda.js"
 
 export const findByCliente = (id) => {
   return new Promise((resolve, reject) => {

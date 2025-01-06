@@ -20,6 +20,23 @@ main.innerHTML = "<div class='spinner'/>"
 
 const id_cli = window.parent.location.search.split("=")[0]
 console.log(id_cli)
-const compras = await fetch(
-  `https://breno-papelaria.onrender.com/vendas/findByCliente${id_cli}`
-)
+const vendas = await fetch(
+  `https://breno-papelaria.onrender.com/vendas/findByCliente/${id_cli}`
+).then((res) => res.json())
+console.log(vendas)
+
+vendas ? (main.innerHTML = "") : null
+
+vendas.forEach((venda) => {
+  main.innerHTML += `
+  <div class="card">
+    <div>
+    <h4>${venda.data}</h4>
+    <p>${Number(venda.total).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    })}</p>
+    </div>
+  </div>
+  `
+})

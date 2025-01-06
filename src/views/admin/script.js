@@ -5,6 +5,36 @@ header.innerHTML = await fetch("../components/header.html").then((res) =>
   res.text()
 )
 
+const clientesPage = document.getElementById("clientes")
+clientesPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/cliente"
+})
+
+const funcionariosPage = document.getElementById("funcionarios")
+funcionariosPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/funcionario"
+})
+
+const produtosPage = document.getElementById("produtos")
+produtosPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/produto"
+})  
+
+const vendasPage = document.getElementById("vendas")
+vendasPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/venda"
+})
+
+const comprasPage = document.getElementById("compras")
+comprasPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/compra"
+})
+
+const fornecedoresPage = document.getElementById("fornecedores")
+fornecedoresPage.addEventListener("click", () => {
+  window.location.href = "/admin/models/fornecedor"
+})
+
 const footer = document.getElementById("footer")
 footer.innerHTML = await fetch("../components/footer.html").then((res) =>
   res.text()

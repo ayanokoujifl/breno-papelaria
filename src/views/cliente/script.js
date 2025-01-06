@@ -46,6 +46,8 @@ produtos.forEach((produto) => {
 })
 
 const compras = document.querySelector(".compras")
+console.log(compras)
+console.log(cliente)
 compras.addEventListener("click", () => {
   window.location.href = `./compras.html?id=${cliente.id_cli}`
 })
