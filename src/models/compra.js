@@ -26,12 +26,6 @@ const compras = connection.define("compras", {
       key: "id_func",
     },
   },
-  datadodia: {
-    type: DataTypes.STRING(10),
-  },
-  horadodia: {
-    type: DataTypes.STRING(5),
-  },
   formapagamento: {
     type: DataTypes.STRING(35),
   },

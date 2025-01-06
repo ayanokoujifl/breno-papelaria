@@ -25,7 +25,7 @@ async function getCompras() {
   }
 }
 
-async function getFornecedores() {
+async function getProdutos() {
   try {
     const response = await fetch(
       "https://breno-papelaria.onrender.com/produtos/findAll"
@@ -37,7 +37,7 @@ async function getFornecedores() {
   }
 }
 
-async function getItemCompras() {
+async function getItemVendas() {
   try {
     const response = await fetch(
       "https://breno-papelaria.onrender.com/itens_venda/findAll"
@@ -49,9 +49,9 @@ async function getItemCompras() {
   }
 }
 
-const compras = await getCompras()
-const produtos = await getFornecedores()
-const itemCompras = await getItemCompras()
+const vendas = await getCompras()
+const produtos = await getProdutos()
+const itemVendas = await getItemVendas()
 //##############################################
 
 const section = document.querySelector("main > section")
@@ -71,8 +71,8 @@ table.appendChild(thead)
 table.setAttribute("border", "1")
 
 const tbody = document.createElement("tbody")
-Array.isArray(compras)
-  ? compras.forEach((Venda) => {
+Array.isArray(vendas)
+  ? vendas.forEach((Venda) => {
       const tr = document.createElement("tr")
       fields.forEach((field) => {
         const td = document.createElement("td")
@@ -107,8 +107,8 @@ tableItem.appendChild(theadItem)
 tableItem.setAttribute("border", "1")
 
 const tbodyItem = document.createElement("tbody")
-Array.isArray(itemCompras)
-  ? itemCompras.forEach((Venda) => {
+Array.isArray(itemVendas)
+  ? itemVendas.forEach((Venda) => {
       const tr = document.createElement("tr")
       itemFields.forEach((field) => {
         const td = document.createElement("td")
@@ -262,7 +262,7 @@ cadastrar.addEventListener("click", async () => {
 
   button.addEventListener("click", async (e) => {
     e.preventDefault()
-    const produtos = await getFornecedores()
+    const produtos = await getProdutos()
 
     //venda
     const idCliente = document.querySelector("#id_cli").value

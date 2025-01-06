@@ -16,7 +16,7 @@ document.addEventListener("submit", (event) => {
 async function getCompras() {
   try {
     const response = await fetch(
-      "https://breno-papelaria.onrender.com/vendas/findAll"
+      "https://breno-papelaria.onrender.com/compras/findAll"
     ).then((res) => res.json())
     return response
   } catch (err) {
@@ -25,10 +25,21 @@ async function getCompras() {
   }
 }
 
-async function getFornecedores() {
+async function getProdutos() {
   try {
     const response = await fetch(
       "https://breno-papelaria.onrender.com/produtos/findAll"
+    ).then((res) => res.json())
+    return response
+  } catch (err) {
+    console.log(err)
+    return
+  }
+}
+async function getFornecedores() {
+  try {
+    const response = await fetch(
+      "https://breno-papelaria.onrender.com/fornecedores/findAll"
     ).then((res) => res.json())
     return response
   } catch (err) {
@@ -40,7 +51,7 @@ async function getFornecedores() {
 async function getItemCompras() {
   try {
     const response = await fetch(
-      "https://breno-papelaria.onrender.com/itens_venda/findAll"
+      "https://breno-papelaria.onrender.com/itens_compra/findAll"
     ).then((res) => res.json())
     return response
   } catch (err) {
@@ -50,14 +61,22 @@ async function getItemCompras() {
 }
 
 const compras = await getCompras()
-const produtos = await getFornecedores()
+const produtos = await getProdutos()
+const fornecedores = await getFornecedores()
 const itemCompras = await getItemCompras()
 //##############################################
 
 const section = document.querySelector("main > section")
 const table = document.createElement("table")
 const thead = document.createElement("thead")
-const fields = ["id_venda", "id_cli", "id_func", "formapagamento", "valortotal"]
+const fields = [
+  "id_compra",
+  "id_forn",
+  "id_func",
+  "formapagamento",
+  "valortotal",
+  "createdAt",
+]
 
 //##############################################
 
@@ -72,11 +91,11 @@ table.setAttribute("border", "1")
 
 const tbody = document.createElement("tbody")
 Array.isArray(compras)
-  ? compras.forEach((Venda) => {
+  ? compras.forEach((compra) => {
       const tr = document.createElement("tr")
       fields.forEach((field) => {
         const td = document.createElement("td")
-        td.innerHTML = Venda[field]
+        td.innerHTML = compra[field]
         tr.appendChild(td)
       })
       tbody.appendChild(tr)
@@ -89,14 +108,7 @@ section.appendChild(table)
 
 const tableItem = document.createElement("table")
 const theadItem = document.createElement("thead")
-const itemFields = [
-  "id_itensv",
-  "id_prod",
-  "id_venda",
-  "id_func",
-  "quantidade",
-  "preco",
-]
+const itemFields = ["id_itensc", "id_prod", "id_compra", "quantidade", "total"]
 
 itemFields.forEach((field) => {
   const th = document.createElement("th")
@@ -133,16 +145,18 @@ cadastrar.addEventListener("click", async () => {
   const form = document.createElement("form")
   form.setAttribute("method", "post")
   fields.forEach(async (field) => {
-    if (field === "id_venda") return
+    if (field === "id_compra") return
     if (field === "valortotal") return
-    if (field === "id_cli") {
+    if (field === "createdAt") return
+
+    if (field === "id_forn") {
       const label = document.createElement("label")
-      label.innerHTML = "Cliente"
+      label.innerHTML = "Fornecedor"
       const select = document.createElement("select")
       const option = document.createElement("option")
       option.setAttribute("value", "")
       option.setAttribute("selected", "true")
-      option.innerHTML = "Selecione um cliente"
+      option.innerHTML = "Selecione um fornecedor"
       select.appendChild(option)
       const div = document.createElement("div")
       div.appendChild(label)
@@ -151,7 +165,7 @@ cadastrar.addEventListener("click", async () => {
       select.setAttribute("name", field)
       select.setAttribute("id", field)
       const response = await fetch(
-        "https://breno-papelaria.onrender.com/clientes/findAll"
+        "https://breno-papelaria.onrender.com/fornecedores/findAll"
       ).then((res) => res.json())
       response.map((cliente) => {
         const option = document.createElement("option")
@@ -262,10 +276,10 @@ cadastrar.addEventListener("click", async () => {
 
   button.addEventListener("click", async (e) => {
     e.preventDefault()
-    const produtos = await getFornecedores()
+    const produtos = await getProdutos()
 
-    //venda
-    const idCliente = document.querySelector("#id_cli").value
+    //compra
+    const idForn = document.querySelector("#id_forn").value
     const idFunc = document.querySelector("#id_func").value
 
     //item_venda
@@ -290,7 +304,7 @@ cadastrar.addEventListener("click", async () => {
     const formapagamento = document.querySelector("#formapagamento").value
 
     const vendaData = {
-      id_cli: idCliente,
+      id_forn: idForn,
       id_func: idFunc,
       formapagamento,
       valortotal: total,
@@ -300,7 +314,7 @@ cadastrar.addEventListener("click", async () => {
 
     try {
       const response = await fetch(
-        "https://breno-papelaria.onrender.com/vendas",
+        "https://breno-papelaria.onrender.com/compras",
         {
           method: "POST",
           headers: {
@@ -321,16 +335,15 @@ cadastrar.addEventListener("click", async () => {
             background: "linear-gradient(to bottom, #166534, #064e3b)",
           },
         }).showToast()
-        const venda = await response.json()
+        const compra = await response.json()
         itemVendaProdutos.map(async (produto, index) => {
           const itemVenda = {
             id_prod: produto.id_prod,
-            id_venda: venda.id_venda,
-            id_func: idFunc,
+            id_compra: compra.id_compra,
             quantidade: itemVendaQuantidades[index].value,
-            preco: produto.preco * itemVendaQuantidades[index].value,
+            total: produto.preco * itemVendaQuantidades[index].value,
           }
-          await fetch("https://breno-papelaria.onrender.com/itens_venda", {
+          await fetch("https://breno-papelaria.onrender.com/itens_compra", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -364,7 +377,6 @@ const body = document.querySelector("body")
 const trClicked = (event) => {
   const tr = event.target.closest("tr")
   const id = tr.children[0].innerHTML
-  const nome = tr.children[1].innerHTML
   const div = document.createElement("div")
   div.setAttribute("id", "modal")
   const backModal = document.createElement("button")
@@ -392,7 +404,7 @@ const trClicked = (event) => {
   })
   buttonTrash.addEventListener("click", async () => {
     const response = await fetch(
-      "https://breno-papelaria.onrender.com/vendas/" + id,
+      "https://breno-papelaria.onrender.com/compras/" + id,
       {
         method: "DELETE",
       }
@@ -545,7 +557,7 @@ const trClicked = (event) => {
       const formData = new FormData(event.target.form)
       const data = Object.fromEntries(formData)
       const response = await fetch(
-        "https://breno-papelaria.onrender.com/vendas/" + id,
+        "https://breno-papelaria.onrender.com/compras/" + id,
         {
           method: "PUT",
           headers: {

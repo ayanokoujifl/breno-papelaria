@@ -37,8 +37,6 @@ export const create = (vendaData) => {
       .create({
         id_cli: vendaData.id_cli,
         id_func: vendaData.id_func,
-        datadodia: vendaData.datadodia,
-        horadodia: vendaData.horadodia,
         formapagamento: vendaData.formapagamento,
         valortotal: vendaData.valortotal,
       })

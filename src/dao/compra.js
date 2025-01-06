@@ -12,8 +12,6 @@ export const create = (compra) => {
   return compras.create({
     id_forn: compra.id_forn,
     id_func: compra.id_func,
-    datadodia: compra.datadodia,
-    horadodia: compra.horadodia,
     formapagamento: compra.formapagamento,
     valortotal: compra.valortotal,
   })
@@ -32,8 +30,6 @@ export const update = (id, compra) => {
     {
       id_forn: compra.id_forn,
       id_func: compra.id_func,
-      datadodia: compra.datadodia,
-      horadodia: compra.horadodia,
       formapagamento: compra.formapagamento,
       valortotal: compra.valortotal,
     },
