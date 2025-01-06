@@ -66,6 +66,57 @@ maxDate.value = today.toISOString().split("T")[0]
   return [dataVendas, dataCompras]
 } */
 
+const MESES = [
+  {
+    number: 1,
+    name: "Janeiro",
+  },
+  {
+    number: 2,
+    name: "Fevereiro",
+  },
+  {
+    number: 3,
+    name: "Março",
+  },
+  {
+    number: 4,
+    name: "Abril",
+  },
+  {
+    number: 5,
+    name: "Maio",
+  },
+  {
+    number: 6,
+    name: "Junho",
+  },
+  {
+    number: 7,
+    name: "Julho",
+  },
+  {
+    number: 8,
+    name: "Agosto",
+  },
+  {
+    number: 9,
+    name: "Setembro",
+  },
+  {
+    number: 10,
+    name: "Outubro",
+  },
+  {
+    number: 11,
+    name: "Novembro",
+  },
+  {
+    number: 12,
+    name: "Dezembro",
+  },
+]
+
 async function getData() {
   const dataVendas = await fetch(
     "https://breno-papelaria.onrender.com/vendas/findAll"
@@ -86,19 +137,22 @@ async function getData() {
   return [filteredVendas, filteredCompras]
 }
 
+const [filteredVendas, filteredCompras] = await getData()
+
 const tableSection = document.querySelector(".table-section")
 const table = document.createElement("table")
 table.setAttribute("border", "1")
 const fields = [
   "Mês",
-  "Arrecadação",
-  "Gastos",
+  "Vendas",
+  "Compras",
   "FP",
   "CMAT",
   "CMAN",
   "Lucro Bruto",
   "Lucro Liquido",
 ]
+
 const tbody = document.createElement("tbody") // Certifique-se de ter um <tbody> no HTML
 const thead = document.createElement("thead") // Certifique-se de ter um <thead> no HTML
 
@@ -108,46 +162,70 @@ fields.forEach((field) => {
   th.textContent = field
   thead.appendChild(th)
 })
-function groupByMonth(data) {
-  return data.reduce((acc, item) => {
-    const { mes, valortotal } = item
-    if (acc[mes]) {
-      acc[mes] += Number(valortotal)
-    } else {
-      acc[mes] = Number(valortotal)
-    }
-    return acc
-  }, {})
+
+// Agrupar dados por mês
+const groupedByMonth = {}
+
+// Agrupar vendas (Total Arrecadado)
+filteredVendas.forEach((venda) => {
+  const monthKey = MESES.find((mes) => mes.name === venda.mes).number
+  console.log(`Processando venda: ${monthKey}, valor: ${venda.valortotal}`)
+  if (!groupedByMonth[monthKey]) {
+    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
+  }
+  groupedByMonth[monthKey].arrecadado += Number(venda.valortotal)
+})
+
+// Agrupar compras (Total Gasto)
+filteredCompras.forEach((compra) => {
+  const monthKey = MESES.find((mes) => mes.name === compra.mes).number // Usar o campo 'mes' diretamente
+  if (!groupedByMonth[monthKey]) {
+    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
+  }
+  groupedByMonth[monthKey].gasto += Number(compra.valortotal)
+})
+
+//
+for (const [month, data] of Object.entries(groupedByMonth)) {
+  // Calcular o Lucro Bruto (LB)
+  console.log(data)
+  data.lb = data.arrecadado - data.gasto
+
+  // Calcular o Custo de Funcionário (FP)
+  const fp = await fetch(
+    "https://breno-papelaria.onrender.com/funcionarios/findAll"
+  )
+    .then((res) => res.json())
+    .then((res) => res.reduce((total, item) => total + item.salario, 0))
+  data.fp = fp
+
+  // Calcular o Custo de Matéria Prima (CMAT) - 10% a 20% do LB
+  data.cmat = data.lb * (Math.random() * 0.1 + 0.1)
+
+  // Calcular o Custo de Manutenção (CMAN) - 20% a 30% do LB
+  data.cman = data.lb * (Math.random() * 0.1 + 0.2)
+
+  // Calcular o Lucro Líquido (LL)
+  data.ll = data.lb - data.fp - data.cmat - data.cman
+  const tr = document.createElement("tr")
+  fields.forEach((field) => {
+    const td = document.createElement("td")
+    if (field === "Mês")
+      td.textContent = MESES.find((mes) => mes.number === Number(month)).name
+    if (field === "Vendas") td.textContent = data.arrecadado.toFixed(2)
+    if (field === "Compras") td.textContent = data.gasto.toFixed(2)
+    if (field === "FP") td.textContent = data.fp.toFixed(2)
+    if (field === "CMAT") td.textContent = data.cmat.toFixed(2)
+    if (field === "CMAN") td.textContent = data.cman.toFixed(2)
+    if (field === "Lucro Bruto") td.textContent = data.lb.toFixed(2)
+    if (field === "Lucro Liquido") td.textContent = data.ll.toFixed(2)
+    tr.appendChild(td)
+  })
+  tbody.appendChild(tr)
 }
-
-const [vendas, compras] = await getData()
-
-// Agrupar por mês
-const vendasPorMes = groupByMonth(vendas)
-const comprasPorMes = groupByMonth(compras)
-
+//
 table.appendChild(thead)
 table.appendChild(tbody)
-
-// Dados
-const allMonths = new Set([
-  ...Object.keys(vendasPorMes),
-  ...Object.keys(comprasPorMes),
-])
-
-allMonths.forEach((mes) => {
-  const tr = document.createElement("tr")
-  const arrecadado = vendasPorMes[mes] || 0
-  const gasto =
-    comprasPorMes[mes] ||
-    (0)[(mes, arrecadado, gasto)].forEach((value) => {
-      const td = document.createElement("td")
-      td.textContent = value
-      tr.appendChild(td)
-    })
-
-  tbody.appendChild(tr)
-})
 tableSection.appendChild(table)
 
 const filter = document.getElementById("filter")

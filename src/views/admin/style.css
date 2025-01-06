@@ -26,6 +26,25 @@ main {
   height: 100vh;
 }
 
+.table-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-section table tr td,
+th {
+  text-align: center;
+  padding: 6px;
+}
+
 main .chart {
   display: flex;
   justify-content: center;
@@ -50,7 +69,7 @@ main .chart {
 .chart-wrapper div {
   display: flex;
   justify-content: center;
-  gap: 32px ;
+  gap: 32px;
   width: 100%;
 }
 
