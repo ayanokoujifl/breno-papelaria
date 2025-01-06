@@ -128,6 +128,40 @@ listar.addEventListener("click", () => {
   window.location.reload()
 })
 //###
+
+async function updateEstoque(produto, quantidade) {
+  const id_prod = produto.id_prod
+  const response = await fetch(
+    "https://breno-papelaria.onrender.com/produtos/" + id_prod,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_forn: produto.id_forn,
+        nome: produto.nome,
+        preco: produto.preco,
+        estoque: produto.quantidade - quantidade,
+      }),
+    }
+  )
+
+  if (response.ok) {
+    Toastify({
+      text: "Estoque atualizado",
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+    }).showToast()
+  }
+}
+
 const cadastrar = document.getElementById("cadastrar")
 cadastrar.addEventListener("click", async () => {
   const form = document.createElement("form")
@@ -310,6 +344,9 @@ cadastrar.addEventListener("click", async () => {
         }
       )
       if (response.ok) {
+        itemVendaProdutos.map(async (produto, index) => {
+          await updateEstoque(produto, itemVendaQuantidades[index].value)
+        })
         Toastify({
           text: "Cadastro concluído com sucesso!",
           duration: 3000,

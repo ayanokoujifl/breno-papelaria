@@ -17,6 +17,7 @@ const itensCompra = connection.define("Itens_Compra", {
       model: produtos,
       key: "id_prod",
     },
+    onDelete: "CASCADE",
   },
   id_compra: {
     type: DataTypes.INTEGER,
@@ -25,6 +26,7 @@ const itensCompra = connection.define("Itens_Compra", {
       model: compras,
       key: "id_compra",
     },
+    onDelete: "CASCADE",
   },
   quantidade: {
     type: DataTypes.INTEGER,

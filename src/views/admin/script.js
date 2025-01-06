@@ -18,7 +18,7 @@ funcionariosPage.addEventListener("click", () => {
 const produtosPage = document.getElementById("produtos")
 produtosPage.addEventListener("click", () => {
   window.location.href = "/admin/models/produto"
-})  
+})
 
 const vendasPage = document.getElementById("vendas")
 vendasPage.addEventListener("click", () => {
@@ -49,15 +49,26 @@ minDate.value = lastWeek.toISOString().split("T")[0]
 maxDate.value = today.toISOString().split("T")[0]
 
 const getData = async (minDate, maxDate) => {
-  const data = await fetch(
-    "http://localhost:3000/vendas/findByDate?minDate=" +
+  const dataVendas = await fetch(
+    "https://breno-papelaria.onrender.com/vendas/findByDate?minDate=" +
       minDate.value +
       "&maxDate=" +
       maxDate.value
   ).then((res) => res.json())
-  return data
+
+  const dataCompras = await fetch(
+    "https://breno-papelaria.onrender.com/compras/findByDate?minDate=" +
+      minDate.value +
+      "&maxDate=" +
+      maxDate.value
+  ).then((res) => res.json())
+
+  return [dataVendas, dataCompras]
 }
 
+const [dataVendas, dataCompras] = await getData(minDate, maxDate)
+console.log(dataVendas)
+console.log("\n##\n" + dataCompras)
 const filter = document.getElementById("filter")
 filter.addEventListener("click", async (e) => {
   e.preventDefault()

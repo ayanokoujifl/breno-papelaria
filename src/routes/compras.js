@@ -7,7 +7,13 @@ const router = express.Router()
 router.get("/findAll", async (req, res) => {
   res.send(await compras.findAll())
 })
-
+router.get("/findByDate", async (req, res) => {
+  const { minDate, maxDate } = req.query
+  console.log(minDate, maxDate)
+  minDate && maxDate
+    ? res.send(await compras.findByDate(minDate, maxDate))
+    : res.status(404).send([])
+})
 router.get("/:id", async (req, res) => {
   const result = await compras.findById(req.params.id)
   result

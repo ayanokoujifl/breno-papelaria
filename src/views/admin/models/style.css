@@ -116,6 +116,12 @@ select {
   cursor: pointer;
 }
 
+option {
+  background-color: #334155;
+  color: #cbd5e1;
+}
+
+
 button {
   background-color: #cbd5e1;
   border: none;

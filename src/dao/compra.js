@@ -1,5 +1,27 @@
 import compras from "../models/compra.js"
 
+export const findByDate = (minDate, maxDate) => {
+  return new Promise((resolve, reject) => {
+    connection
+      .query(
+        `SELECT * FROM "Compras" WHERE "createdAt"::DATE BETWEEN :minDate AND :maxDate`,
+        {
+          replacements: { minDate, maxDate },
+          type: connection.QueryTypes.SELECT,
+        }
+      )
+      .then((result) => {
+        console.log("Resultado da query:", result)
+        resolve(result)
+      })
+      .catch((err) => {
+        console.error("Erro na execução da query:", err)
+        reject(err)
+      })
+  })
+}
+
+
 export const findAll = () => {
   return compras.findAll()
 }
@@ -38,3 +60,4 @@ export const update = (id, compra) => {
     }
   )
 }
+

@@ -60,6 +60,43 @@ async function getItemCompras() {
   }
 }
 
+async function updateEstoque(produto, quantidade) {
+  try {
+    const id_prod = produto.id_prod
+    const response = await fetch(
+      "https://breno-papelaria.onrender.com/produtos/" + id_prod,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id_forn: produto.id_forn,
+          nome: produto.nome,
+          preco: produto.preco,
+          estoque: produto.quantidade + quantidade,
+        }),
+      }
+    )
+
+    if (response.ok) {
+      Toastify({
+        text: "Estoque atualizado",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast()
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const compras = await getCompras()
 const produtos = await getProdutos()
 const fornecedores = await getFornecedores()
@@ -167,10 +204,10 @@ cadastrar.addEventListener("click", async () => {
       const response = await fetch(
         "https://breno-papelaria.onrender.com/fornecedores/findAll"
       ).then((res) => res.json())
-      response.map((cliente) => {
+      response.map((Fornecedor) => {
         const option = document.createElement("option")
-        option.setAttribute("value", cliente.id_cli)
-        option.innerHTML = cliente.nome
+        option.setAttribute("value", Fornecedor.id_forn)
+        option.innerHTML = Fornecedor.nome
         select.appendChild(option)
       })
     } else if (field === "id_func") {
@@ -324,6 +361,9 @@ cadastrar.addEventListener("click", async () => {
         }
       )
       if (response.ok) {
+        itemVendaProdutos.map(async (produto, index) => {
+          updateEstoque(produto.id_prod, itemVendaQuantidades[index].value)
+        })
         Toastify({
           text: "Cadastro concluído com sucesso!",
           duration: 3000,
@@ -431,15 +471,16 @@ const trClicked = (event) => {
     const form = document.createElement("form")
     form.setAttribute("method", "post")
     fields.forEach(async (field, indice) => {
-      if (field === "id_venda") return
+      if (field === "id_compra") return
       if (field === "valortotal") return
-      if (field === "id_cli") {
+      if (field === "createdAt") return
+      if (field === "id_forn") {
         const label = document.createElement("label")
-        label.innerHTML = "Cliente"
+        label.innerHTML = "Fornecedor"
         const select = document.createElement("select")
         const option = document.createElement("option")
         option.setAttribute("value", "")
-        option.innerHTML = "Selecione um cliente"
+        option.innerHTML = "Selecione um fornecedor"
         select.appendChild(option)
         const div = document.createElement("div")
         div.appendChild(label)
@@ -450,10 +491,10 @@ const trClicked = (event) => {
         const response = await fetch(
           "https://breno-papelaria.onrender.com/clientes/findAll"
         ).then((res) => res.json())
-        response.map((cliente) => {
+        response.map((fornecedor) => {
           const option = document.createElement("option")
-          option.setAttribute("value", cliente.id_cli)
-          option.innerHTML = cliente.nome
+          option.setAttribute("value", fornecedor.if_forn)
+          option.innerHTML = fornecedor.nome
           select.appendChild(option)
         })
       } else if (field === "id_func") {
