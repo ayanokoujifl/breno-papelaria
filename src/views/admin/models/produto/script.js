@@ -45,6 +45,14 @@ Array.isArray(produtos)
   ? produtos.forEach((Produto) => {
       const tr = document.createElement("tr")
       fields.forEach((field) => {
+        if (field === "imagem") {
+          const td = document.createElement("td")
+          const img = document.createElement("img")
+          img.setAttribute("src", Produto[field])
+          td.appendChild(img)
+          tr.appendChild(td)
+          return
+        }
         const td = document.createElement("td")
         td.innerHTML = Produto[field]
         tr.appendChild(td)

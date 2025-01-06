@@ -53,6 +53,12 @@ td {
   font-weight: 300;
 }
 
+td img {
+  width: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 th {
   background-color: #1e293b;
   color: #e2e8f0;

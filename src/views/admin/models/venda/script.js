@@ -189,6 +189,7 @@ listar.addEventListener("click", () => {
 
 async function updateEstoque(produto, quantidade) {
   const id_prod = produto.id_prod
+  console.log(produto.estoque)
   const response = await fetch(
     "https://breno-papelaria.onrender.com/produtos/" + id_prod,
     {
@@ -200,7 +201,7 @@ async function updateEstoque(produto, quantidade) {
         id_forn: produto.id_forn,
         nome: produto.nome,
         preco: produto.preco,
-        estoque: produto.quantidade - quantidade,
+        estoque: produto.estoque - quantidade,
       }),
     }
   )
@@ -380,7 +381,7 @@ cadastrar.addEventListener("click", async () => {
     //venda
     const idCliente = document.querySelector("#id_cli").value
     const idFunc = document.querySelector("#id_func").value
-
+    console.log(idFunc)
     //item_venda
     const itemVendaProdutosChecks = document.querySelectorAll(
       "input[type=checkbox]"

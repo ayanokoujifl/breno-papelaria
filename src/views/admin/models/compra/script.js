@@ -125,7 +125,7 @@ async function updateEstoque(produto, quantidade) {
           id_forn: produto.id_forn,
           nome: produto.nome,
           preco: produto.preco,
-          estoque: produto.quantidade + quantidade,
+          estoque: produto.estoque + quantidade,
         }),
       }
     )
