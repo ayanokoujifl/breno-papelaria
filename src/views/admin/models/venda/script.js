@@ -13,18 +13,54 @@ document.addEventListener("submit", (event) => {
 })
 
 const MESES = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
+  {
+    number: 1,
+    name: "Janeiro",
+  },
+  {
+    number: 2,
+    name: "Fevereiro",
+  },
+  {
+    number: 3,
+    name: "Março",
+  },
+  {
+    number: 4,
+    name: "Abril",
+  },
+  {
+    number: 5,
+    name: "Maio",
+  },
+  {
+    number: 6,
+    name: "Junho",
+  },
+  {
+    number: 7,
+    name: "Julho",
+  },
+  {
+    number: 8,
+    name: "Agosto",
+  },
+  {
+    number: 9,
+    name: "Setembro",
+  },
+  {
+    number: 10,
+    name: "Outubro",
+  },
+  {
+    number: 11,
+    name: "Novembro",
+  },
+  {
+    number: 12,
+    name: "Dezembro",
+  },
 ]
 
 //#############################################
@@ -245,14 +281,15 @@ cadastrar.addEventListener("click", async () => {
       const select = document.createElement("select")
       const option = document.createElement("option")
       select.setAttribute("id", "mes")
-      option.setAttribute("value", "")
-      option.setAttribute("selected", "true")
       option.innerHTML = "Selecione um mês"
       select.appendChild(option)
       MESES.map((mes) => {
         const option = document.createElement("option")
-        option.setAttribute("value", mes)
-        option.innerHTML = mes
+        if (mes.number === new Date().getMonth() + 1) {
+          option.setAttribute("selected", "true")
+        }
+        option.setAttribute("value", mes.name)
+        option.innerHTML = mes.name
         select.appendChild(option)
       })
       const div = document.createElement("div")

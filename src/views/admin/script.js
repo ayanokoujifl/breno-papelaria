@@ -86,8 +86,6 @@ async function getData() {
   return [filteredVendas, filteredCompras]
 }
 
-const [filteredVendas, filteredCompras] = await getData()
-
 const tableSection = document.querySelector(".table-section")
 const table = document.createElement("table")
 table.setAttribute("border", "1")
@@ -110,50 +108,46 @@ fields.forEach((field) => {
   th.textContent = field
   thead.appendChild(th)
 })
-
-// Agrupar dados por mês
-const groupedByMonth = {}
-
-// Função auxiliar para formatar o mês (yyyy-mm)
-const formatMonth = (date) => {
-  const month = date.getMonth() + 1 // Mês é zero-indexado
-  const year = date.getFullYear()
-  return `${month.toString().padStart(2, "0")}/${year}`
+function groupByMonth(data) {
+  return data.reduce((acc, item) => {
+    const { mes, valortotal } = item
+    if (acc[mes]) {
+      acc[mes] += Number(valortotal)
+    } else {
+      acc[mes] = Number(valortotal)
+    }
+    return acc
+  }, {})
 }
 
-// Agrupar vendas (Total Arrecadado)
-filteredVendas.forEach((venda) => {
-  const monthKey = formatMonth(new Date(venda.createdAt))
-  if (!groupedByMonth[monthKey]) {
-    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
-  }
-  groupedByMonth[monthKey].arrecadado += Number(venda.valortotal)
-})
+const [vendas, compras] = await getData()
 
-// Agrupar compras (Total Gasto)
-filteredCompras.forEach((compra) => {
-  const monthKey = formatMonth(new Date(compra.createdAt))
-  if (!groupedByMonth[monthKey]) {
-    groupedByMonth[monthKey] = { arrecadado: 0, gasto: 0 }
-  }
-  groupedByMonth[monthKey].gasto += Number(compra.valortotal)
-})
-
-// Adicionar os dados na tabela
-for (const [month, { arrecadado, gasto }] of Object.entries(groupedByMonth)) {
-  const tr = document.createElement("tr")
-  fields.forEach((field) => {
-    const td = document.createElement("td")
-    if (field === "Mês") td.textContent = month
-    if (field === "Total Arrecadado") td.textContent = arrecadado.toFixed(2)
-    if (field === "Total Gasto") td.textContent = gasto.toFixed(2)
-    tr.appendChild(td)
-  })
-  tbody.appendChild(tr)
-}
+// Agrupar por mês
+const vendasPorMes = groupByMonth(vendas)
+const comprasPorMes = groupByMonth(compras)
 
 table.appendChild(thead)
 table.appendChild(tbody)
+
+// Dados
+const allMonths = new Set([
+  ...Object.keys(vendasPorMes),
+  ...Object.keys(comprasPorMes),
+])
+
+allMonths.forEach((mes) => {
+  const tr = document.createElement("tr")
+  const arrecadado = vendasPorMes[mes] || 0
+  const gasto =
+    comprasPorMes[mes] ||
+    (0)[(mes, arrecadado, gasto)].forEach((value) => {
+      const td = document.createElement("td")
+      td.textContent = value
+      tr.appendChild(td)
+    })
+
+  tbody.appendChild(tr)
+})
 tableSection.appendChild(table)
 
 const filter = document.getElementById("filter")

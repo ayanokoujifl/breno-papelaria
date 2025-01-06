@@ -32,6 +32,9 @@ const compras = connection.define("compras", {
   valortotal: {
     type: DataTypes.DOUBLE,
   },
+  mes:{
+    type: DataTypes.STRING(10)
+  }
 })
 
 export default compras

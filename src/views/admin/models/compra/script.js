@@ -234,6 +234,27 @@ cadastrar.addEventListener("click", async () => {
         option.innerHTML = funcionario.nome
         select.appendChild(option)
       })
+    } else if (field === "mes") {
+      const label = document.createElement("label")
+      label.innerHTML = "Mês"
+      const select = document.createElement("select")
+      const option = document.createElement("option")
+      select.setAttribute("id", "mes")
+      option.innerHTML = "Selecione um mês"
+      select.appendChild(option)
+      MESES.map((mes) => {
+        const option = document.createElement("option")
+        if (mes.number === new Date().getMonth() + 1) {
+          option.setAttribute("selected", "true")
+        }
+        option.setAttribute("value", mes.name)
+        option.innerHTML = mes.name
+        select.appendChild(option)
+      })
+      const div = document.createElement("div")
+      div.appendChild(label)
+      div.appendChild(select)
+      form.appendChild(div)
     } else {
       const label = document.createElement("label")
       label.innerHTML = field

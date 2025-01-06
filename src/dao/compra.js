@@ -35,6 +35,7 @@ export const create = (compra) => {
     id_func: compra.id_func,
     formapagamento: compra.formapagamento,
     valortotal: compra.valortotal,
+    mes: compra.mes,
   })
 }
 
