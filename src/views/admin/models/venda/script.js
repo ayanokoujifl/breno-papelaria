@@ -147,14 +147,7 @@ section.appendChild(table)
 
 const tableItem = document.createElement("table")
 const theadItem = document.createElement("thead")
-const itemFields = [
-  "id_itensv",
-  "id_prod",
-  "id_venda",
-  "id_func",
-  "quantidade",
-  "preco",
-]
+const itemFields = ["id_itensv", "id_prod", "id_venda", "quantidade", "preco"]
 
 itemFields.forEach((field) => {
   const th = document.createElement("th")
@@ -189,7 +182,6 @@ listar.addEventListener("click", () => {
 
 async function updateEstoque(produto, quantidade) {
   const id_prod = produto.id_prod
-  console.log(produto.estoque)
   const response = await fetch(
     "https://breno-papelaria.onrender.com/produtos/" + id_prod,
     {
@@ -381,7 +373,6 @@ cadastrar.addEventListener("click", async () => {
     //venda
     const idCliente = document.querySelector("#id_cli").value
     const idFunc = document.querySelector("#id_func").value
-    console.log(idFunc)
     //item_venda
     const itemVendaProdutosChecks = document.querySelectorAll(
       "input[type=checkbox]"
@@ -411,8 +402,6 @@ cadastrar.addEventListener("click", async () => {
       mes: mes,
     }
 
-    console.log(vendaData)
-
     try {
       const response = await fetch(
         "https://breno-papelaria.onrender.com/vendas",
@@ -440,11 +429,11 @@ cadastrar.addEventListener("click", async () => {
           },
         }).showToast()
         const venda = await response.json()
+
         itemVendaProdutos.map(async (produto, index) => {
           const itemVenda = {
             id_prod: produto.id_prod,
             id_venda: venda.id_venda,
-            id_func: idFunc,
             quantidade: itemVendaQuantidades[index].value,
             preco: produto.preco * itemVendaQuantidades[index].value,
           }

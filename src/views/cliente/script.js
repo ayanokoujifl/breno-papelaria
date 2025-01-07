@@ -9,6 +9,7 @@ footer.innerHTML = await fetch("../components/footer-cliente.html").then(
 )
 
 const cpf = window.location.search.split("=")[1]
+console.log(cpf)
 const cliente = await fetch(
   `https://breno-papelaria.onrender.com/clientes/findByCpf/${cpf}`
 ).then((res) => res.json())
@@ -49,5 +50,5 @@ const compras = document.querySelector(".compras")
 console.log(compras)
 console.log(cliente)
 compras.addEventListener("click", () => {
-  window.location.href = `./compras.html?id=${cliente.id_cli}`
+  window.location.href = `./compras.html?id=${cliente[0].id_cli}`
 })

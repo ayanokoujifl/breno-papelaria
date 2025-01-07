@@ -221,20 +221,38 @@ const trClicked = (event) => {
   buttonEdit.addEventListener("click", () => {
     const form = document.createElement("form")
     form.setAttribute("method", "post")
+    const x = document.createElement("i")
+    x.setAttribute("class", "ph-bold ph-x close-form")
+    x.addEventListener("click", () => {
+      console.log("x clicado")
+      form.remove()
+    })
+    form.appendChild(x)
     fields.forEach((field, indice) => {
       if (field === "id_prod") return
+      if (field === "imagem") {
+        const label = document.createElement("label")
+        label.innerHTML = "URL Imagem"
+        const input = document.createElement("input")
+        input.setAttribute("type", "url")
+        input.setAttribute("id", field)
+        input.setAttribute("name", field)
+        input.setAttribute("value", tr.children[indice].children[0].src)
+        form.appendChild(label)
+        form.appendChild(input)
+        return
+      }
       const label = document.createElement("label")
       label.innerHTML = field
       const input = document.createElement("input")
       const formWrapper = document.createElement("div")
       input.setAttribute("type", "text")
       input.setAttribute("name", field)
+      input.setAttribute("id", field)
       input.setAttribute("value", tr.children[indice].innerHTML)
       form.appendChild(label)
       form.appendChild(input)
-      const x = document.createElement("i")
-      x.setAttribute("class", "ph-bold ph-x close-form")
-      form.appendChild(x)
+
       formWrapper.appendChild(form)
     })
     const button = document.createElement("button")
@@ -242,8 +260,18 @@ const trClicked = (event) => {
     button.innerHTML = "Editar"
     button.addEventListener("click", async (event) => {
       event.preventDefault()
-      const formData = new FormData(event.target.form)
-      const data = Object.fromEntries(formData)
+      const idForn = document.querySelector("#id_forn")
+      const nome = document.querySelector("#nome")
+      const preco = document.querySelector("#preco")
+      const estoque = document.querySelector("#estoque")
+      const imagem = document.querySelector("#imagem")
+      const data = {
+        id_forn: idForn.value,
+        nome: nome.value,
+        preco: preco.value,
+        estoque: estoque.value,
+        imagem: imagem.value,
+      }
       const response = await fetch(
         "https://breno-papelaria.onrender.com/produtos/" + id,
         {
